@@ -1,3 +1,5 @@
+using Api_Auction.API.Entities;
+using Api_Auction.API.UseCases.Actions.GetCurrent;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api_Auction.API.Controllers;
@@ -7,8 +9,17 @@ namespace Api_Auction.API.Controllers;
 public class AuctionController : ControllerBase
 {
     [HttpGet]
+    [ProducesResponseType(typeof(Auction), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public IActionResult GetCurrentAuction()
     {
-        return Ok("Mizael");
+        var useCase = new GetCurrentAuctionUseCase();
+        var result = useCase.Execute();
+        if (result is null)
+        {
+            return NoContent();
+        }
+
+        return Ok(result);
     }
 }
