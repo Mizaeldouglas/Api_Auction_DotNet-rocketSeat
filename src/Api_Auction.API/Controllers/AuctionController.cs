@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api_Auction.API.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class AuctionController : ControllerBase
+public class AuctionController : ApiAuctionBaseController
 {
     [HttpGet]
     [ProducesResponseType(typeof(Auction), StatusCodes.Status200OK)]
@@ -15,6 +13,7 @@ public class AuctionController : ControllerBase
     {
         var useCase = new GetCurrentAuctionUseCase();
         var result = useCase.Execute();
+        
         if (result is null)
         {
             return NoContent();
@@ -22,4 +21,6 @@ public class AuctionController : ControllerBase
 
         return Ok(result);
     }
+
+    
 }
